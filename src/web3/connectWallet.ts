@@ -1,4 +1,13 @@
 import Web3 from 'web3'
+import useStore from '@/store'
+import { storeToRefs } from 'pinia'
+import router from '@/router'
+const { user, main } = useStore()
+const { wallet_address, message, signature } = storeToRefs(user)
+const { loading } = storeToRefs(main)
+wallet_address.value = ''
+message.value = ''
+signature.value = ''
 
 declare global {
   interface Window {
@@ -22,11 +31,31 @@ async function checkNetwork () {
 
 async function connectWallet () {
   try {
-    checkNetwork()
-    const one = await window.okxwallet.request({
+    const msg =
+      Math.random().toString(36).substring(2, 15) +
+      Math.random().toString(36).substring(2, 15)
+    const accounts = await window.okxwallet.request({
       method: 'eth_requestAccounts'
     })
-    console.log('one:', one)
+    const account = accounts[0]
+    const signatureV = await window.okxwallet.request({
+      method: 'personal_sign',
+      params: [msg, account] // 参数顺序是: [消息, 签名账户地址]
+    })
+    if (signatureV.toString()) {
+      wallet_address.value = accounts[0]
+      message.value = msg
+      signature.value = signatureV!.toString()
+      loading.value = true
+      let timer = setInterval(() => {
+        console.log('wallet_address.value:', wallet_address.value)
+        if (wallet_address.value != '') {
+          router.push('/sign-up/continue')
+          loading.value = false
+          clearInterval(timer)
+        }
+      }, 100)
+    }
   } catch (error) {}
 }
 

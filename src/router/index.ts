@@ -22,7 +22,23 @@ let router = createRouter({
         },
         {
           path: '/sign-up',
-          component: () => import('@/views/login/signup.vue')
+          children: [
+            { path: '', component: () => import('@/views/login/signup.vue') },
+            {
+              path: 'continue',
+              children: [
+                {
+                  path: '',
+                  component: () => import('@/views/login/continue.vue')
+                },
+                {
+                  path: 'verify-email-address',
+                  component: () =>
+                    import('@/views/login/verifyEmailAddress.vue')
+                }
+              ]
+            }
+          ]
         }
       ]
     }

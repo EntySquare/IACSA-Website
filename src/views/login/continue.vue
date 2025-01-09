@@ -3,126 +3,64 @@ import connectWallet from '@/web3/connectWallet'
 import { MetaMaskSDK } from '@metamask/sdk'
 import useStore from '@/store'
 import { storeToRefs } from 'pinia'
+import { reactive } from 'vue'
 import router from '@/router'
 const { user, main } = useStore()
-const {
-  wallet_address,
-  message,
-  signature,
-  user_name,
-  email_address,
-  email_code_timer
-} = storeToRefs(user)
+const { user_name, email_address, email_code_timer } = storeToRefs(user)
 const { loading } = storeToRefs(main)
-wallet_address.value = ''
-message.value = ''
-signature.value = ''
-user_name.value = ''
-email_address.value = ''
-email_code_timer.value = ''
-const MMSDK = new MetaMaskSDK({
-  dappMetadata: {
-    name: 'IACSA',
-    url: window.location.href
-  },
-  infuraAPIKey: import.meta.env.INFURA_API_KEY
+const data = reactive({
+  userName: '',
+  emailAddress: ''
 })
-const metamaskFn = async () => {
-  const msg =
-    Math.random().toString(36).substring(2, 15) +
-    Math.random().toString(36).substring(2, 15)
-  const signatureV = await MMSDK.connectAndSign({ msg })
-  const accounts = await MMSDK.connect()
-  if (signatureV!.toString()) {
-    wallet_address.value = accounts[0]
-    message.value = msg
-    signature.value = signatureV!.toString()
-    loading.value = true
-    let timer = setInterval(() => {
-      if (wallet_address.value != '') {
-        router.push('/sign-up/continue')
-        loading.value = false
-        clearInterval(timer)
-      }
-    }, 100)
-  }
+const continueFn = () => {
+  user_name.value = data.userName
+  email_address.value = data.emailAddress
+  email_code_timer.value = (Date.now() + 30 * 1000).toString()
+  loading.value = true
+  let timer = setInterval(() => {
+    if (email_address.value != '' && user_name.value != '') {
+      router.push('/sign-up/continue/verify-email-address')
+      loading.value = false
+      clearInterval(timer)
+    } else {
+      clearInterval(timer)
+      loading.value = false
+    }
+  }, 100)
 }
 </script>
 <template>
   <div class="sign_up">
     <div class="content_body">
-      <div class="title">Create your account</div>
-      <div class="text_1">
-        Welcome! Please fill in the details to get started
-      </div>
+      <div class="title">Fill in missing fields</div>
+      <div class="text_1">Please fill in the remaing details to continue</div>
       <div v-if="0" class="tips">
         <el-icon
           ><WarnTriangleFilled style="width: 16px; height: 16px; color: red"
         /></el-icon>
       </div>
-      <div class="select_wallate">
-        <div class="metamask button" @click="metamaskFn">
-          <img
-            crossorigin="anonymous"
-            srcset="
-              https://img.clerk.com/static/metamask.svg?width=80  1x,
-              https://img.clerk.com/static/metamask.svg?width=160 2x
-            "
-            src="https://img.clerk.com/static/metamask.svg?width=160"
-            class="cl-socialButtonsProviderIcon cl-providerIcon cl-socialButtonsProviderIcon__metamask cl-providerIcon__metamask 🔒️ cl-internal-2gzuzc"
-            alt="Sign in with MetaMask"
-          />
-          <span>MetaMask</span>
-        </div>
-        <div class="okx button" @click="connectWallet">
-          <img
-            crossorigin="anonymous"
-            srcset="
-              https://img.clerk.com/static/okx_wallet.svg?width=80  1x,
-              https://img.clerk.com/static/okx_wallet.svg?width=160 2x
-            "
-            src="https://img.clerk.com/static/okx_wallet.svg?width=160"
-            class="cl-socialButtonsProviderIcon cl-providerIcon cl-socialButtonsProviderIcon__okx_wallet cl-providerIcon__okx_wallet 🔒️ cl-internal-2gzuzc"
-            alt="Sign in with OKX Wallet"
-          />
-          <span>OKX Wallet</span>
-        </div>
-      </div>
-      <div class="or_text">or</div>
       <div class="email_username">
-        <div class="one">
-          <div class="first_name">
-            <div class="first_name_title">
-              <div class="in_title">First name</div>
-              <span>Optional</span>
-            </div>
-            <input type="text" placeholder="First name" />
-          </div>
-          <div class="last_name">
-            <div class="last_name_title">
-              <div class="in_title">Last name</div>
-              <span>Optional</span>
-            </div>
-            <input type="text" placeholder="Last name" />
-          </div>
-        </div>
         <div class="two">
           <div class="user_name">
             <div class="user_name_title">
               <div class="in_title">Username</div>
             </div>
-            <input type="text" placeholder="" />
+            <input type="text" placeholder="" v-model="data.userName" />
           </div>
           <div class="email">
             <div class="email_title">
               <div class="in_title">Email address</div>
             </div>
-            <input type="text" placeholder="Enter your email address" />
+            <input
+              type="text"
+              placeholder="Enter your email address"
+              v-model="data.emailAddress"
+            />
           </div>
         </div>
       </div>
       <div class="continue_box">
-        <div class="continue_btn button">
+        <div class="continue_btn button" @click="continueFn">
           Continue<CaretRight style="width: 14px" />
         </div>
         <div class="have_a">Already have an account? <span>Sign in</span></div>

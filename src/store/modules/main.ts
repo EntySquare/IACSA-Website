@@ -1,11 +1,11 @@
 // 管理分类导航的数据
 import { defineStore } from 'pinia'
-let useHomeStore = defineStore('home', {
+
+let MainStore = defineStore('main', {
   state: () => ({
-    test: '我是测试数据'
+    loading: false
   }),
   actions: {},
   getters: {}
 })
-export default useHomeStore
-
+export default MainStore

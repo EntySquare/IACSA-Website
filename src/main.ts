@@ -10,9 +10,10 @@ import router from './router/index'
 import plugin from './components/index'
 // 导入 pinia
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import { createPinia } from 'pinia'
 let pinia = createPinia()
-
+pinia.use(piniaPluginPersistedstate)
 const app = createApp(App)
 
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
