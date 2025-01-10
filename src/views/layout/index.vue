@@ -1,12 +1,12 @@
 <script setup lang="ts">
 // 导入组件
-import AppTopNavVue from './components/app-topnav.vue'
-import AppFooterVue from './components/app-footer.vue'
+import AppTopNavVue from "./components/app-topnav.vue";
+import AppFooterVue from "./components/app-footer.vue";
 </script>
 <script lang="ts">
 export default {
-  name: 'layout'
-}
+  name: "layout",
+};
 </script>
 <template>
   <!-- 顶部通栏组件 -->
@@ -16,4 +16,5 @@ export default {
   <!-- 底部通栏组件 -->
   <AppFooterVue></AppFooterVue>
 </template>
-<style scoped lang="less"></style>
+<style scoped lang="less">
+</style>
