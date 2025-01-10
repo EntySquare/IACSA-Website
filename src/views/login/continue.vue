@@ -9,7 +9,7 @@ const { user, main } = useStore()
 const { user_name, email_address, email_code_timer } = storeToRefs(user)
 const { loading } = storeToRefs(main)
 const data = reactive({
-  userName: '',
+  userName: user_name.value,
   emailAddress: ''
 })
 const continueFn = () => {
@@ -18,7 +18,10 @@ const continueFn = () => {
   email_code_timer.value = (Date.now() + 30 * 1000).toString()
   loading.value = true
   let timer = setInterval(() => {
-    if (email_address.value != '' && user_name.value != '') {
+    if (
+      (email_address.value != '' && user_name.value != '') ||
+      user_name.value != ''
+    ) {
       router.push('/sign-up/continue/verify-email-address')
       loading.value = false
       clearInterval(timer)
@@ -27,6 +30,9 @@ const continueFn = () => {
       loading.value = false
     }
   }, 100)
+}
+const keyDOwnFn = (event: any) => {
+  if (event.key == 'Enter') continueFn()
 }
 </script>
 <template>
@@ -41,7 +47,7 @@ const continueFn = () => {
       </div>
       <div class="email_username">
         <div class="two">
-          <div class="user_name">
+          <div class="user_name" v-if="!user_name">
             <div class="user_name_title">
               <div class="in_title">Username</div>
             </div>
@@ -53,6 +59,7 @@ const continueFn = () => {
             </div>
             <input
               type="text"
+              @keydown="keyDOwnFn"
               placeholder="Enter your email address"
               v-model="data.emailAddress"
             />
@@ -63,14 +70,14 @@ const continueFn = () => {
         <div class="continue_btn button" @click="continueFn">
           Continue<CaretRight style="width: 14px" />
         </div>
-        <div class="have_a">Already have an account? <span>Sign in</span></div>
+        <div class="have_a">Already have an account? <span class="button" @click="router.push('/sign-in')">Sign in</span></div>
       </div>
     </div>
   </div>
 </template>
 <style lang="less" scoped>
 .sign_up {
-  height: 100%;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -11,6 +11,7 @@ const {
   signature,
   user_name,
   email_address,
+  email_code,
   email_code_timer
 } = storeToRefs(user)
 const { loading } = storeToRefs(main)
@@ -20,6 +21,7 @@ signature.value = ''
 user_name.value = ''
 email_address.value = ''
 email_code_timer.value = ''
+email_code.value = ''
 const MMSDK = new MetaMaskSDK({
   dappMetadata: {
     name: 'IACSA',
@@ -74,7 +76,7 @@ const metamaskFn = async () => {
           />
           <span>MetaMask</span>
         </div>
-        <div class="okx button" @click="connectWallet">
+        <div class="okx button" @click="connectWallet(1)">
           <img
             crossorigin="anonymous"
             srcset="
@@ -125,14 +127,17 @@ const metamaskFn = async () => {
         <div class="continue_btn button">
           Continue<CaretRight style="width: 14px" />
         </div>
-        <div class="have_a">Already have an account? <span>Sign in</span></div>
+        <div class="have_a">
+          Already have an account?
+          <span class="button" @click="router.push('/sign-in')">Sign in</span>
+        </div>
       </div>
     </div>
   </div>
 </template>
 <style lang="less" scoped>
 .sign_up {
-  height: 100%;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;

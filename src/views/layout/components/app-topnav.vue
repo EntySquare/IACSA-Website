@@ -100,76 +100,79 @@
     </div>
   </div>
 </template>
-  
-  <script lang="ts" setup>
-import { ref, computed, onMounted, onBeforeUnmount } from "vue";
-// 导航项列表
-const navItems = ref(["HACKATHON", "VENTURE STUDIO", "BUILDERBOARD", "HOST"]);
 
-import { useWindowSize } from "@/utils/useWindowSize";
+<script lang="ts" setup>
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import { useWindowSize } from '@/utils/useWindowSize'
+// 导航项列表
+const navItems = ref(['HACKATHON', 'VENTURE STUDIO', 'BUILDERBOARD', 'HOST'])
 
 //动态获取窗口大小
-const { windowWidth } = useWindowSize();
+const { windowWidth } = useWindowSize()
 
 // 控制抽屉状态
-const isDrawerOpen = ref(false); // 抽屉是否打开
-const menuState = ref(0); // 菜单状态：0=，1—，2X，3>
+const isDrawerOpen = ref(false) // 抽屉是否打开
+const menuState = ref(0) // 菜单状态：0=，1—，2X，3>
 
 // 切换按钮状态
 const handleClick = () => {
   if (menuState.value === 0) {
     // 第一步：= -> — -> X
-    menuState.value = 1; // 立即从 = 变成 —
+    menuState.value = 1 // 立即从 = 变成 —
     setTimeout(() => {
-      menuState.value = 2; // 1 秒后变成 X
-      isDrawerOpen.value = true; // 打开抽屉
-      document.body.style.overflow = "hidden"; // 禁止背景滚动
-    }, 300);
+      menuState.value = 2 // 1 秒后变成 X
+      isDrawerOpen.value = true // 打开抽屉
+      document.body.style.overflow = 'hidden' // 禁止背景滚动
+    }, 300)
   } else if (menuState.value === 2) {
     // 第二步：X -> > -> =
-    menuState.value = 3; // 立即从 X 变成 >
+    menuState.value = 3 // 立即从 X 变成 >
     setTimeout(() => {
-      menuState.value = 0; // 1 秒后变成 =
-      isDrawerOpen.value = false; // 关闭抽屉
-      document.body.style.overflow = ""; // 恢复背景滚动
-    }, 300);
+      menuState.value = 0 // 1 秒后变成 =
+      isDrawerOpen.value = false // 关闭抽屉
+      document.body.style.overflow = '' // 恢复背景滚动
+    }, 300)
   }
-};
+}
 
 // 动态控制 CSS 类
 const line1Class = computed(() =>
   menuState.value === 0
-    ? "line1"
+    ? 'line1'
     : menuState.value === 1
-    ? "line1 to-line"
+    ? 'line1 to-line'
     : menuState.value === 2
-    ? "line1 to-x"
-    : "line1 to-arrow"
-);
+    ? 'line1 to-x'
+    : 'line1 to-arrow'
+)
 
 const line2Class = computed(() =>
   menuState.value === 0
-    ? "line2"
+    ? 'line2'
     : menuState.value === 1
-    ? "line2 to-line"
+    ? 'line2 to-line'
     : menuState.value === 2
-    ? "line2 to-x"
-    : "line2 to-arrow"
-);
+    ? 'line2 to-x'
+    : 'line2 to-arrow'
+)
 
 // 抽屉中的内容
-const drawerItems = ["Twitter", "Discord", "Telegram", "Medium"];
-const drawerItems1 = ["Hackathon", "Venture Studio", "Builderboard", "Host"];
+const drawerItems = ['Twitter', 'Discord', 'Telegram', 'Medium']
+const drawerItems1 = ['Hackathon', 'Venture Studio', 'Builderboard', 'Host']
 
 // 动态计算动画延迟
 const getItemStyle = (index: number) => {
   return {
-    transitionDelay: `${index * 0.1}s`,
-  };
-};
+    transitionDelay: `${index * 0.1}s`
+  }
+}
 </script>
-  
-  <style scoped lang="less">
+<script lang="ts">
+export default {
+  name: 'AppTopNavVue'
+}
+</script>
+<style scoped lang="less">
 .navbar {
   position: fixed;
   z-index: 1000;
@@ -210,7 +213,7 @@ const getItemStyle = (index: number) => {
     font-size: 16px;
     font-weight: 400;
     cursor: pointer;
-    font-family: "JetBrains Mono", monospace;
+    font-family: 'JetBrains Mono', monospace;
 
     color: #fff;
   }
@@ -227,7 +230,7 @@ const getItemStyle = (index: number) => {
     color: white;
     font-size: 12px;
     cursor: pointer;
-    --framer-font-family: "JetBrains Mono", monospace;
+    --framer-font-family: 'JetBrains Mono', monospace;
     --framer-font-size: 12px;
   }
 }
@@ -319,7 +322,7 @@ const getItemStyle = (index: number) => {
       color: #00ffff;
     }
   }
-  font-family: "Basement Grotesque Bold", "Basement Grotesque Bold Placeholder",
+  font-family: 'Basement Grotesque Bold', 'Basement Grotesque Bold Placeholder',
     sans-serif;
   font-size: 32px;
 
@@ -327,7 +330,7 @@ const getItemStyle = (index: number) => {
   text-transform: uppercase;
 }
 .drawer-content {
-  font-family: "JetBrains Mono", monospace;
+  font-family: 'JetBrains Mono', monospace;
   font-size: 15px;
   font-weight: 500;
   line-height: 20px;
@@ -394,4 +397,3 @@ const getItemStyle = (index: number) => {
   transform: translateX(0) translateY(0);
 }
 </style>
-  

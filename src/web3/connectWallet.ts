@@ -29,7 +29,7 @@ async function checkNetwork () {
   }
 }
 
-async function connectWallet () {
+async function connectWallet (type: number) {
   try {
     const msg =
       Math.random().toString(36).substring(2, 15) +
@@ -48,9 +48,12 @@ async function connectWallet () {
       signature.value = signatureV!.toString()
       loading.value = true
       let timer = setInterval(() => {
-        console.log('wallet_address.value:', wallet_address.value)
         if (wallet_address.value != '') {
-          router.push('/sign-up/continue')
+          if (type) {
+            router.push('/sign-up/continue')
+          } else {
+            const res = user.postLogin()
+          }
           loading.value = false
           clearInterval(timer)
         }

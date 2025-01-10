@@ -1,35 +1,39 @@
-<script lang="ts" setup>
-import { ref } from "vue";
+<script lang="ts" setup name="AppFooter">
+import { ref } from 'vue'
 
-const inputValue = ref("");
+const inputValue = ref('')
 // 错误状态
-const isError = ref(false);
+const isError = ref(false)
 
 const valueChange = () => {
-  console.log("111111");
+  console.log('111111')
 
   if (inputValue.value.trim()) {
     // 如果输入框不为空，取消错误状态
-    isError.value = false;
+    isError.value = false
   } else {
     // 如果输入框为空，设置为错误状态
-    isError.value = false;
+    isError.value = false
   }
-};
+}
 // 点击按钮的逻辑
 const handleSubscribe = () => {
   if (!inputValue.value.trim()) {
     // 如果输入框为空，设置为错误状态
-    isError.value = true;
+    isError.value = true
   } else {
     // 如果输入框不为空，取消错误状态
-    isError.value = false;
+    isError.value = false
     // 可以在这里触发提交逻辑
-    console.log("订阅成功:", inputValue.value);
+    console.log('订阅成功:', inputValue.value)
   }
-};
+}
 </script>
-
+<script lang="ts">
+export default {
+  name: 'AppFooterVue'
+}
+</script>
 <template>
   <footer class="footer">
     <div class="footer_BG">
@@ -198,8 +202,8 @@ const handleSubscribe = () => {
     }
 
     .footer-tagline {
-      font-family: "Basement Grotesque Bold",
-        "Basement Grotesque Bold Placeholder", sans-serif;
+      font-family: 'Basement Grotesque Bold',
+        'Basement Grotesque Bold Placeholder', sans-serif;
       font-size: 12px;
       line-height: 20px;
       color: rgb(248, 250, 252);
@@ -207,7 +211,7 @@ const handleSubscribe = () => {
     }
 
     .footer-subscribe-text {
-      font-family: "JetBrains Mono";
+      font-family: 'JetBrains Mono';
 
       font-size: 12px;
       color: rgba(248, 250, 252, 1);
@@ -221,9 +225,9 @@ const handleSubscribe = () => {
       opacity: 1;
       display: flex;
       align-items: center;
-      font-family: "JetBrains Mono Regular", "JetBrains Mono", Inter, system-ui,
-        -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
-        sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+      font-family: 'JetBrains Mono Regular', 'JetBrains Mono', Inter, system-ui,
+        -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial,
+        sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
       width: 312px;
       height: 52px;
       :deep(.el-input__wrapper) {
@@ -257,10 +261,10 @@ const handleSubscribe = () => {
         display: flex;
         align-items: center;
         justify-content: center;
-        font-family: "JetBrains Mono Regular", "JetBrains Mono", Inter,
-          system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-          Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-          "Segoe UI Symbol";
+        font-family: 'JetBrains Mono Regular', 'JetBrains Mono', Inter,
+          system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+          Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+          'Segoe UI Symbol';
         font-weight: 600;
         font-size: 14px;
         cursor: pointer;
@@ -279,7 +283,7 @@ const handleSubscribe = () => {
       flex: 1;
 
       .cloumnTitle {
-        font-family: "JetBrains Mono";
+        font-family: 'JetBrains Mono';
         font-size: 16px;
         font-weight: 700;
         color: rgba(248, 250, 252, 1);
@@ -297,7 +301,7 @@ const handleSubscribe = () => {
             color: #9b96b0;
             text-decoration: none;
             font-size: 14px;
-            font-family: "JetBrains Mono", monospace;
+            font-family: 'JetBrains Mono', monospace;
             font-size: 14px;
             line-height: 20px;
             &:hover {

@@ -4,11 +4,11 @@ import { MetaMaskSDK } from '@metamask/sdk'
 import useStore from '@/store'
 import { storeToRefs } from 'pinia'
 import { nextTick, onMounted, reactive, ref } from 'vue'
+import router from '@/router'
 const { user } = useStore()
 const { user_name, email_address, email_code, email_code_timer } =
   storeToRefs(user)
 
-const emits = defineEmits(['emailCode'])
 const verificationCodes = ref(['', '', '', '', '', ''])
 
 const handleInput = (index: number, event: any) => {
@@ -23,12 +23,8 @@ const handleInput = (index: number, event: any) => {
     verificationCodes.value[index] = value
     if (index == 5) {
       email_code.value = verificationCodes.value.join('')
+      user.postRegister()
     }
-  }
-
-  // 判断是否输入完成
-  if (verificationCodes.value.join('').length === 6) {
-    emits('emailCode', verificationCodes.value.join(''))
   }
 
   // 自动跳到下一个输入框
@@ -79,6 +75,7 @@ const handlePaste = (event: ClipboardEvent) => {
       })
     }
     email_code.value = verificationCodes.value.join('')
+
     // 如果粘贴的数字长度正好是 6 位，则触发完成逻辑
   }
 }
@@ -126,7 +123,7 @@ const continueFn = () => {}
     <div class="content_body">
       <div class="title">Verify your email</div>
       <div class="text_1">Enter the verification code sent to your email</div>
-      <div class="email_address_text">
+      <div class="email_address_text" @click="router.push('/sign-up/continue')">
         <span>{{ email_address }}</span
         ><EditPen style="height: 15px; color: rgba(255, 255, 255, 0.812)" />
       </div>
@@ -162,7 +159,7 @@ const continueFn = () => {}
 </template>
 <style lang="less" scoped>
 .sign_up {
-  height: 100%;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
