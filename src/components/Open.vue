@@ -46,7 +46,7 @@ const words = ["influence", "connection", "experience", "ecosystem"];
 const currentIndex = ref(0);
 const currentText = ref(words[currentIndex.value]);
 const showText = ref(true);
-let intervalId: string | number | NodeJS.Timer | undefined;
+let intervalId: string | number | NodeJS.Timeout | undefined;
 
 const startTextRotation = () => {
   intervalId = setInterval(() => {
