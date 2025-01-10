@@ -1,71 +1,78 @@
 <template>
-  <div class="button-container">
-    <button class="glow-button">
-      LET'S CONNECT →
-    </button>
+  <div class="Seeking">
+    <div class="container">
+      <div class="title">Seeking Collaboration or Developers?</div>
+      <div style="position: relative">
+        <div class="button-container">LET'S CONNECT -></div>
+        <div class="colorBg"></div>
+      </div>
+    </div>
   </div>
 </template>
-
-<style scoped>
-/* 外部容器 */
-.button-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #0b0f1a; /* 背景色 */
-  height: 100vh; /* 居中显示 */
-}
-
-/* 按钮样式 */
-.glow-button {
-  position: relative;
-  padding: 12px 30px;
-  font-size: 16px;
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: #00ffff; /* 按钮文字颜色 */
-  background: transparent;
-  border: 2px solid #00ffff; /* 按钮边框颜色 */
-  border-radius: 25px;
-  cursor: pointer;
-  overflow: hidden;
-  transition: all 0.3s ease;
-}
-
-/* 光影环绕效果 */
-.glow-button::before {
-  content: '';
-  position: absolute;
-  top: -4px;
-  left: -4px;
-  right: -4px;
-  bottom: -4px;
-  border-radius: 25px; /* 与按钮边框一致 */
-  background: conic-gradient(
-    from 0deg,
-    rgba(0, 255, 255, 0.4),
-    rgba(0, 0, 0, 0) 50%,
-    rgba(0, 255, 255, 0.4)
-  ); /* 光影渐变 */
-  z-index: -1;
-  animation: spin 2s linear infinite; /* 光影旋转动画 */
-}
-
-/* 鼠标悬停效果 */
-.glow-button:hover {
-  color: #0b0f1a;
-  background-color: #00ffff;
-  box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
-}
-
-/* 光影旋转动画 */
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
+        
+    <script lang="ts" setup>
+</script>
+        
+    <style scoped lang="less">
+.Seeking {
+  width: 100%;
+  background-color: #04051a;
+  padding: 120px 80px;
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
-  100% {
-    transform: rotate(360deg);
+  .title {
+    margin-bottom: 64px;
+    font-family: "Basement Grotesque Bold",
+      "Basement Grotesque Bold Placeholder", sans-serif;
+    font-size: 24px;
+    line-height: 32px;
+    text-align: center;
+    color: rgba(145, 150, 176, 0.5);
+  }
+
+  .button-container {
+    position: relative;
+    padding: 10px 30px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 14px;
+    color: rgb(0, 255, 255); /* 文字颜色 */
+    border: 2px solid rgba(0, 255, 255, 0.5); /* 边框 */
+    border-radius: 50px; /* 圆角 */
+
+    text-align: center;
+    letter-spacing: 1px;
+    cursor: pointer;
+    background-color: #04051a;
+    z-index: 10;
+  }
+
+  /* 发光效果 */
+  .colorBg {
+    position: absolute;
+    top: 12%;
+    left: 86%;
+    // transform: translate(-50%, -50%);
+    width: 30px;
+    height: 30px;
+    background: radial-gradient(
+      circle,
+      rgba(0, 255, 255, 1) 0%,
+      rgba(0, 255, 255, 1) 80%
+    );
+    filter: blur(4px);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+  }
+}
+@media (max-width: 1279px) {
+  .Seeking {
+    padding: 60px 0 0;
+    padding-bottom: 80px;
   }
 }
 </style>
+        
