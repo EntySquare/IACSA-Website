@@ -7,17 +7,20 @@ import '@/assets/styles/common.less'
 // 导入路由
 import router from './router/index'
 // 导入复用组件
-import plugin from "./components/index";
+import plugin from './components/index'
 // 导入 pinia
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import { createPinia } from 'pinia'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 
 let pinia = createPinia()
+pinia.use(piniaPluginPersistedstate)
+const app = createApp(App)
 
-createApp(App)
-    .use(ElementPlus)
-    .use(router)
-    .use(pinia)
-    .use(plugin)
-    .mount('#app')
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+  app.component(key, component)
+}
+
+app.use(router).use(router).use(pinia).use(plugin).use(ElementPlus).mount('#app')

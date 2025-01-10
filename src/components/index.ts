@@ -1,6 +1,7 @@
 // 管理所有的全局组件
 import { App } from "vue";
 import BBBOX from "./BBBOX.vue";
+import Loading from "./Loading.vue";
 import Open from "./Open.vue";
 import IBuild from "./IBuild.vue";
 import WHAT from "./WHAT.vue";
@@ -14,6 +15,7 @@ import svgIcon from "./svg.vue";
 export default {
   install(Vue: App) {
     Vue.component("BBBOX", BBBOX);
+    Vue.component("Loading", Loading);
     Vue.component("Open", Open);
     Vue.component("IBuild", IBuild);
     Vue.component("WHAT", WHAT);
