@@ -7,29 +7,29 @@ import { reactive } from 'vue'
 import router from '@/router'
 const { user, main } = useStore()
 const { user_name, email_address, email_code_timer } = storeToRefs(user)
+import { sendValidCode } from '@/apis/login'
 const { loading } = storeToRefs(main)
 const data = reactive({
   userName: user_name.value,
   emailAddress: ''
 })
-const continueFn = () => {
+const continueFn = async () => {
   user_name.value = data.userName
   email_address.value = data.emailAddress
-  email_code_timer.value = (Date.now() + 30 * 1000).toString()
-  loading.value = true
-  let timer = setInterval(() => {
-    if (
-      (email_address.value != '' && user_name.value != '') ||
-      user_name.value != ''
-    ) {
-      router.push('/sign-up/continue/verify-email-address')
-      loading.value = false
-      clearInterval(timer)
-    } else {
-      clearInterval(timer)
-      loading.value = false
+  if (email_address.value != '' && user_name.value != '') {
+    const res = (await sendValidCode({
+      email_address: email_address.value
+    })) as any
+    if (res.code == 0) {
+      email_code_timer.value = (Date.now() + 30 * 1000).toString()
+      let timer = setInterval(async () => {
+        if (email_address.value != '' && user_name.value != '') {
+          router.push('/sign-up/continue/verify-email-address')
+          clearInterval(timer)
+        }
+      }, 100)
     }
-  }, 100)
+  }
 }
 const keyDOwnFn = (event: any) => {
   if (event.key == 'Enter') continueFn()
@@ -70,14 +70,18 @@ const keyDOwnFn = (event: any) => {
         <div class="continue_btn button" @click="continueFn">
           Continue<CaretRight style="width: 14px" />
         </div>
-        <div class="have_a">Already have an account? <span class="button" @click="router.push('/sign-in')">Sign in</span></div>
+        <div class="have_a">
+          Already have an account?
+          <span class="button" @click="router.push('/sign-in')">Sign in</span>
+        </div>
       </div>
     </div>
   </div>
 </template>
 <style lang="less" scoped>
 .sign_up {
-  height: 100vh;
+  min-height: 100vh;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;

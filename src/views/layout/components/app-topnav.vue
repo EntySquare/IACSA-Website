@@ -93,7 +93,11 @@
           </div>
         </div>
 
-        <div class="enter-button" style="z-index: 1000">
+        <div
+          class="enter-button"
+          style="z-index: 1000"
+          @click="router.push('/en/campaigns')"
+        >
           <button>ENTER</button>
         </div>
       </div>
@@ -102,6 +106,8 @@
 </template>
 
 <script lang="ts" setup>
+import router from '@/router'
+
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useWindowSize } from '@/utils/useWindowSize'
 // 导航项列表

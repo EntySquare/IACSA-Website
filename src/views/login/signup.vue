@@ -39,11 +39,9 @@ const metamaskFn = async () => {
     wallet_address.value = accounts[0]
     message.value = msg
     signature.value = signatureV!.toString()
-    loading.value = true
     let timer = setInterval(() => {
       if (wallet_address.value != '') {
         router.push('/sign-up/continue')
-        loading.value = false
         clearInterval(timer)
       }
     }, 100)
@@ -137,7 +135,8 @@ const metamaskFn = async () => {
 </template>
 <style lang="less" scoped>
 .sign_up {
-  height: 100vh;
+  min-height: 100vh;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;

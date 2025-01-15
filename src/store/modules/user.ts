@@ -6,7 +6,7 @@ import { register, login } from '@/apis/login'
 let UserStore = defineStore('user', {
   persist: true,
   state: () => ({
-    is_login: !Utils.tokenFn.tokenIsExpired(),
+    is_login: Utils.tokenFn.tokenIsExpired() || false,
     userInfo: {},
     wallet_address: '',
     message: '',
@@ -35,8 +35,8 @@ let UserStore = defineStore('user', {
         role_ids: this.role_ids
       }
       console.log('r_data:', data)
-      // var { json } = await register(data)
-      // console.log('data:', json)
+      var { json } = (await register(data)) as any
+      console.log('data:', json)
       this.remakeData()
 
       // if (data) {
@@ -51,13 +51,12 @@ let UserStore = defineStore('user', {
         email_address: this.email_address,
         email_code: this.email_code
       }
-      var res = await login(data)
-      console.log('res:', res)
-      this.remakeData()
-      // console.log('data:', json)
-      // if (data) {
-      //   this.userInfo = data
-      // }
+      var { json } = (await login(data)) as any
+      if (json) {
+        Utils.tokenFn.setToken(json.token)
+        this.remakeData()
+        return true
+      } else return false
     },
     remakeData () {
       this.wallet_address = ''

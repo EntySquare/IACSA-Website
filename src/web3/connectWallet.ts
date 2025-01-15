@@ -46,18 +46,17 @@ async function connectWallet (type: number) {
       wallet_address.value = accounts[0]
       message.value = msg
       signature.value = signatureV!.toString()
-      loading.value = true
-      let timer = setInterval(() => {
-        if (wallet_address.value != '') {
-          if (type) {
+      if (type) {
+        let timer = setInterval(async () => {
+          if (wallet_address.value != '') {
             router.push('/sign-up/continue')
-          } else {
-            const res = user.postLogin()
+            clearInterval(timer)
           }
-          loading.value = false
-          clearInterval(timer)
-        }
-      }, 100)
+        }, 100)
+      } else {
+        const show = await user.postLogin()
+        if (show) router.push('/en')
+      }
     }
   } catch (error) {}
 }

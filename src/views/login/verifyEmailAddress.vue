@@ -72,10 +72,10 @@ const handlePaste = (event: ClipboardEvent) => {
     if (lastInput) {
       nextTick(() => {
         lastInput.focus()
+        email_code.value = verificationCodes.value.join('')
+        user.postRegister()
       })
     }
-    email_code.value = verificationCodes.value.join('')
-
     // 如果粘贴的数字长度正好是 6 位，则触发完成逻辑
   }
 }
@@ -159,7 +159,8 @@ const continueFn = () => {}
 </template>
 <style lang="less" scoped>
 .sign_up {
-  height: 100vh;
+  min-height: 100vh;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;

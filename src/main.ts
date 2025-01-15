@@ -23,4 +23,4 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
 }
 
-app.use(router).use(router).use(pinia).use(plugin).use(ElementPlus).mount('#app')
+app.use(router).use(pinia).use(plugin).use(ElementPlus).mount('#app')
