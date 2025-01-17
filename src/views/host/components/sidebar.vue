@@ -121,7 +121,7 @@ export default {
         :class="[
           'tab_bar_item',
           {
-            active: '/host/compaigns' == router.currentRoute.value.fullPath
+            active: router.currentRoute.value.fullPath.includes('compaigns')
           }
         ]"
       >
@@ -133,7 +133,7 @@ export default {
 </template>
 <style lang="less" scoped>
 .sidebar {
-  width: 278px;
+  min-width: 278px;
   border-right: 1px solid rgba(255, 255, 255, 0.189);
   .left_menu {
     display: flex;
@@ -253,6 +253,7 @@ export default {
       padding: 0 10px;
       gap: 4px;
       font-size: 14px;
+      cursor: pointer;
       &:hover {
         background-color: #383748;
       }

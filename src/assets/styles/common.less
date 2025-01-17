@@ -9,19 +9,58 @@ html {
     scroll-behavior: smooth;
     background-color: #04051a;
     tab-size: 4;
-    font-family: ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+    // font-family: ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+    font-family: 'PuTong-Two', sans-serif;
+    /* 默认中字体 */
     font-feature-settings: normal;
     font-variation-settings: normal;
     -webkit-tap-highlight-color: transparent;
-}
-
-
-html {
     scrollbar-width: thin;
     /* 适用于 Firefox */
     scrollbar-color: #88888858 #f0f0f000;
     /* 滑块和轨道颜色 */
 }
+
+@font-face {
+    font-family: 'PuTong';
+    src: url('@/assets/fonts/f08a39a96380e447-s.p.woff2') format('woff2');
+    font-weight: 300;
+    /* 细字体 */
+    font-display: swap;
+    /* 使用 swap 模式 */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'PuTong';
+    src: url('@/assets/fonts/82969702bf971541-s.p.woff2') format('woff2'), ;
+    font-weight: 400;
+    /* 中字体 */
+    font-display: swap;
+    /* 使用 swap 模式 */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'PuTong';
+    src: url('@/assets/fonts/05bb6f9a7aaeec14-s.p.woff2') format('woff2');
+    font-weight: 700;
+    /* 粗字体 */
+    font-display: swap;
+    /* 使用 swap 模式 */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'PuTong-Two';
+    src: url('@/assets/fonts/bb3ef058b751a6ad-s.p.woff2') format('woff2');
+    font-weight: 300;
+    /* 细字体 */
+    font-display: swap;
+    /* 使用 swap 模式 */
+    font-style: normal;
+}
+
 
 /* WebKit 引擎的滚动条样式 */
 ::-webkit-scrollbar {

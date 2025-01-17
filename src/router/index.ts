@@ -83,7 +83,16 @@ let router = createRouter({
         { path: '', component: () => import('@/views/host/summary.vue') },
         {
           path: 'compaigns',
-          component: () => import('@/views/host/compaigns.vue')
+          children: [
+            {
+              path: '',
+              component: () => import('@/views/host/compaigns.vue')
+            },
+            {
+              path: 'new',
+              component: () => import('@/views/host/newCompaigns.vue')
+            }
+          ]
         }
       ]
     }

@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import router from '@/router'
 const four_data = [
   {
     name: 'Total Visitors',
@@ -27,7 +28,9 @@ const four_data = [
     <div class="hello_user">Hello,{{ 'CHN-XCZ' }}</div>
     <div class="create_campaign">
       <div>⭐️ Create your first campaign</div>
-      <div class="btn_create">+ Dragt a new campaign</div>
+      <div class="btn_create" @click="router.push('/host/compaigns/new')">
+        + Dragt a new campaign
+      </div>
     </div>
     <div class="metrics">
       <div class="title">Metrics</div>
@@ -61,7 +64,7 @@ const four_data = [
   align-items: center;
   // justify-content: center;
   gap: 40px;
-  padding: 50px 60px 0;
+  padding: 100px 50px 0;
   .hello_user {
     font-size: 24px;
     color: #68738a;
@@ -76,6 +79,7 @@ const four_data = [
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    border-radius: 5px;
     padding: 40px 0;
     font-size: 25px;
     gap: 20px;
