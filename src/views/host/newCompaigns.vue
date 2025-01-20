@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { nextTick, onMounted, ref } from 'vue'
-
+import { nextTick, onMounted, reactive, ref } from 'vue'
+import { createNewCampaign } from '@/apis/login'
 const hoverInput = ref('')
-
+import { toast } from 'vue-sonner'
 const handleFocusin = (event: FocusEvent) => {
   const target = event.target as HTMLElement | null // 确保类型安全
   if (target && target.id) {
@@ -28,6 +28,40 @@ onMounted(() => {
   })
 })
 const timeVa = ref()
+const data = reactive({
+  campaign_type: '1',
+  title: '',
+  host_name: '',
+  Description: '',
+  CampaignMode: '0',
+  start_time: 0,
+  end_time: 0
+})
+function findEmptyFields(data: any) {
+  return Object.keys(data).filter(key => {
+    const value = data[key]
+    if (typeof value === 'string') {
+      return value.trim() === '' // 检查字符串是否为空
+    } else if (typeof value === 'number') {
+      return value === 0 // 检查数字是否为 0
+    }
+    return false // 对其他类型的字段不做处理
+  })
+}
+const createFN = async () => {
+  if (timeVa.value) {
+    data.start_time = timeVa.value[0] / 1000
+    data.end_time = timeVa.value[1] / 1000
+  }
+  const noshuru = findEmptyFields(data)
+  if (noshuru.length != 0) {
+    toast.error(`Please select the ${noshuru[0]}!`)
+    return
+  } else {
+    const res = await createNewCampaign(data)
+    console.log('res:', res)
+  }
+}
 </script>
 <template>
   <div class="newCompaigns">
@@ -39,7 +73,10 @@ const timeVa = ref()
       <div class="item_box">
         <div class="item_title">Campaign Type</div>
         <div class="item_body">
-          <div class="select_type type_active">
+          <div
+            :class="['select_type', { type_active: data.campaign_type == '1' }]"
+            @click="data.campaign_type = '1'"
+          >
             <i></i>
             <img
               src="https://build.bewater.xyz/assets/hackathon.png"
@@ -48,7 +85,10 @@ const timeVa = ref()
             />
             <span>Hackathon</span>
           </div>
-          <div class="select_type">
+          <div
+            :class="['select_type', { type_active: data.campaign_type == '2' }]"
+            @click="data.campaign_type = '2'"
+          >
             <i></i>
             <img
               src="https://build.bewater.xyz/assets/workshop.png"
@@ -70,7 +110,7 @@ const timeVa = ref()
         </div>
         <div class="item_body">
           <div class="input_box">
-            <input id="title_00" type="text" />
+            <input id="title_00" v-model="data.title" type="text" />
           </div>
         </div>
       </div>
@@ -85,7 +125,7 @@ const timeVa = ref()
         </div>
         <div class="item_body">
           <div class="input_box">
-            <input id="title_11" type="text" />
+            <input id="title_11" v-model="data.host_name" type="text" />
           </div>
         </div>
       </div>
@@ -104,6 +144,7 @@ const timeVa = ref()
               :style="{ maxWidth: `${widthV}px` }"
               id="title_22"
               type="text"
+              v-model="data.Description"
               placeholder="Please write a brief introduction about this event, including the format and other relevant information. You may briefly describe the event's origin, development history, and emphasize its unique features and significance. The event introduction should be concise, factual, and provide participants, spectators, and media with a quick understanding of the event's details. Let's create a favorable public atmosphere for the smooth running of the event."
             />
           </div>
@@ -112,9 +153,24 @@ const timeVa = ref()
       <div class="item_box">
         <div class="item_title">Campaign mode</div>
         <div class="item_body">
-          <div class="select_mode type_active"><i></i><span>ONLINE</span></div>
-          <div class="select_mode"><i></i><span>Offline</span></div>
-          <div class="select_mode"><i></i><span>Online + Offline</span></div>
+          <div
+            :class="['select_mode', { type_active: data.CampaignMode == '0' }]"
+            @click="data.CampaignMode = '0'"
+          >
+            <i></i><span>ONLINE</span>
+          </div>
+          <div
+            :class="['select_mode', { type_active: data.CampaignMode == '1' }]"
+            @click="data.CampaignMode = '1'"
+          >
+            <i></i><span>Offline</span>
+          </div>
+          <div
+            :class="['select_mode', { type_active: data.CampaignMode == '2' }]"
+            @click="data.CampaignMode = '2'"
+          >
+            <i></i><span>Online + Offline</span>
+          </div>
         </div>
       </div>
       <div class="item_box hovdslkj">
@@ -137,6 +193,16 @@ const timeVa = ref()
             format="YYYY/MM/DD"
             value-format="x"
           />
+        </div>
+      </div>
+      <div class="item_box hovdslkj">
+        <div>
+          <span></span>
+        </div>
+        <div class="item_body item_body_btn">
+          <div class="continue_btn button" @click="createFN">
+            Create campaign
+          </div>
         </div>
       </div>
     </div>
@@ -262,7 +328,7 @@ const timeVa = ref()
           }
           textarea {
             width: 100%;
-            height: 38px;
+            min-height: 38px;
             border-radius: 5px;
             padding: 0 10px;
             border: 1px solid #ffffff33;
@@ -281,6 +347,24 @@ const timeVa = ref()
             }
           }
         }
+        .continue_btn {
+          background-color: @themeColor;
+          padding: 10px;
+          color: #000;
+          box-sizing: border-box;
+          border-radius: 3px;
+          margin: 0px;
+          font-family: inherit;
+          letter-spacing: normal;
+          font-weight: 600;
+          font-size: 14px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+      .item_body_btn {
+        justify-content: end;
       }
     }
   }
