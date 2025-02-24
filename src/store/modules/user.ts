@@ -1,13 +1,14 @@
 // 管理分类导航的数据
 import { defineStore } from 'pinia'
 import Utils from '@/utils'
-import { register, login } from '@/apis/login'
+import { register, login, queryBasicUserInfo } from '@/apis/login'
+import router from '@/router'
 
 let UserStore = defineStore('user', {
   persist: true,
   state: () => ({
     is_login: Utils.tokenFn.tokenIsExpired() || false,
-    userInfo: {},
+    userInfo: {} as any,
     wallet_address: '',
     message: '',
     signature: '',
@@ -39,9 +40,12 @@ let UserStore = defineStore('user', {
       console.log('data:', json)
       this.remakeData()
 
-      // if (data) {
-      //   this.userInfo = data
-      // }
+      if (json) {
+        Utils.tokenFn.setToken(json.token)
+        this.remakeData()
+        router.push('/')
+        return true
+      } else return false
     },
     async postLogin () {
       var data = {
@@ -55,6 +59,7 @@ let UserStore = defineStore('user', {
       if (json) {
         Utils.tokenFn.setToken(json.token)
         this.remakeData()
+        this.getUserInfo()
         return true
       } else return false
     },
@@ -72,6 +77,10 @@ let UserStore = defineStore('user', {
       this.email_code_timer = ''
     },
     async getUserInfo () {
+      const res = (await queryBasicUserInfo()) as any
+      if (res.code == 0) {
+        this.userInfo = res.json
+      }
       // const { data } = await getUserInfo()
       // if (data) {
       //   this.userInfo = data

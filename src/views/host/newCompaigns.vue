@@ -32,8 +32,9 @@ const data = reactive({
   campaign_type: '1',
   title: '',
   host_name: '',
-  Description: '',
-  CampaignMode: '0',
+  description: '',
+  campaign_mode: '0',
+  city: '',
   start_time: 0,
   end_time: 0
 })
@@ -55,8 +56,13 @@ const createFN = async () => {
   }
   const noshuru = findEmptyFields(data)
   if (noshuru.length != 0) {
-    toast.error(`Please select the ${noshuru[0]}!`)
-    return
+    //* 如果 cm = 0 ,且未填空的值为city,放行, 如果cm!=0,
+    if (data.campaign_mode == '0' && noshuru[0] == 'city') {
+      const res = await createNewCampaign(data)
+      console.log('res:', res)
+    } else {
+      toast.error(`Please select the ${noshuru[0]}!`)
+    }
   } else {
     const res = await createNewCampaign(data)
     console.log('res:', res)
@@ -144,7 +150,7 @@ const createFN = async () => {
               :style="{ maxWidth: `${widthV}px` }"
               id="title_22"
               type="text"
-              v-model="data.Description"
+              v-model="data.description"
               placeholder="Please write a brief introduction about this event, including the format and other relevant information. You may briefly describe the event's origin, development history, and emphasize its unique features and significance. The event introduction should be concise, factual, and provide participants, spectators, and media with a quick understanding of the event's details. Let's create a favorable public atmosphere for the smooth running of the event."
             />
           </div>
@@ -154,20 +160,20 @@ const createFN = async () => {
         <div class="item_title">Campaign mode</div>
         <div class="item_body">
           <div
-            :class="['select_mode', { type_active: data.CampaignMode == '0' }]"
-            @click="data.CampaignMode = '0'"
+            :class="['select_mode', { type_active: data.campaign_mode == '0' }]"
+            @click="data.campaign_mode = '0'"
           >
             <i></i><span>ONLINE</span>
           </div>
           <div
-            :class="['select_mode', { type_active: data.CampaignMode == '1' }]"
-            @click="data.CampaignMode = '1'"
+            :class="['select_mode', { type_active: data.campaign_mode == '1' }]"
+            @click="data.campaign_mode = '1'"
           >
             <i></i><span>Offline</span>
           </div>
           <div
-            :class="['select_mode', { type_active: data.CampaignMode == '2' }]"
-            @click="data.CampaignMode = '2'"
+            :class="['select_mode', { type_active: data.campaign_mode == '2' }]"
+            @click="data.campaign_mode = '2'"
           >
             <i></i><span>Online + Offline</span>
           </div>

@@ -11,3 +11,6 @@ export const sendValidCode = (data: any) => request.post('/app/sendValidCode', d
 
 // 获取严重吗
 export const createNewCampaign = (data: any) => request.post('/app/createNewCampaign', data)
+
+// 获取用户基本信息
+export const queryBasicUserInfo = () => request.post('/app/queryBasicUserInfo')

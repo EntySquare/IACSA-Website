@@ -8,7 +8,7 @@ import { storeToRefs } from 'pinia'
 // 创建 axios 副本对象
 let request = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
-  timeout: 5000
+  timeout: 10000
 })
 // 设置请求拦截器
 request.interceptors.request.use(
@@ -43,6 +43,7 @@ request.interceptors.response.use(
     }
   },
   err => {
+    console.log('err:', err)
     const { main } = useStore()
     const { loading } = storeToRefs(main)
     loading.value = false

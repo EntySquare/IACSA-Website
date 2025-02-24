@@ -1,4 +1,14 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import useStore from '@/store'
+import router from '@/router'
+import { storeToRefs } from 'pinia';
+import { onMounted } from 'vue';
+const { user } = useStore()
+onMounted(() => {
+  user.getUserInfo()
+})
+
+</script>
 <template>
   <div class="campaigns">
     <h1>campaigns</h1>
