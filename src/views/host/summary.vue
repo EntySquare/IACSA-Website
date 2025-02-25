@@ -1,5 +1,14 @@
 <script lang="ts" setup>
 import router from '@/router'
+import Utils from '@/utils'
+import { ref } from 'vue'
+import { MetaMaskSDK } from '@metamask/sdk'
+import useStore from '@/store'
+import { storeToRefs } from 'pinia'
+const { user, main } = useStore()
+const {
+  userInfo
+} = storeToRefs(user)
 const four_data = [
   {
     name: 'Total Visitors',
@@ -25,7 +34,7 @@ const four_data = [
 </script>
 <template>
   <div class="summary">
-    <div class="hello_user">Hello,{{ 'CHN-XCZ' }}</div>
+    <div class="hello_user">Hello,{{ userInfo.user_name }}</div>
     <div class="create_campaign">
       <div>⭐️ Create your first campaign</div>
       <div class="btn_create" @click="router.push('/host/compaigns/new')">
@@ -35,11 +44,7 @@ const four_data = [
     <div class="metrics">
       <div class="title">Metrics</div>
       <div class="four_tongji">
-        <div
-          class="four_tongji_item"
-          v-for="(item, index) in four_data"
-          :key="index"
-        >
+        <div class="four_tongji_item" v-for="(item, index) in four_data" :key="index">
           <div class="four_tongji_item_title">
             {{ item.name }}
           </div>
@@ -65,12 +70,14 @@ const four_data = [
   // justify-content: center;
   gap: 40px;
   padding: 100px 50px 0;
+
   .hello_user {
     font-size: 24px;
     color: #68738a;
     font-weight: 600;
     width: 100%;
   }
+
   .create_campaign {
     border: 1px solid #27254c;
     width: 100%;
@@ -83,6 +90,7 @@ const four_data = [
     padding: 40px 0;
     font-size: 25px;
     gap: 20px;
+
     .btn_create {
       font-size: 15px;
       color: #000;
@@ -91,18 +99,22 @@ const four_data = [
       background: @themeColor;
     }
   }
+
   .metrics {
     width: 100%;
     display: flex;
     flex-direction: column;
     gap: 20px;
+
     .title {
       font-size: 20px;
       font-weight: 600;
     }
+
     .four_tongji {
       display: flex;
       gap: 20px;
+
       .four_tongji_item {
         display: flex;
         flex-direction: column;
@@ -112,16 +124,20 @@ const four_data = [
         flex: 1;
         border: 1px solid #27254c;
         background: rgb(11 12 36 1);
+
         .four_tongji_item_title {
           font-size: 16px;
           color: rgba(255, 255, 255, 0.605);
         }
+
         .four_tongji_item_value {
           font-size: 26px;
         }
+
         .four_tongji_item_time {
           font-size: 16px;
           color: rgba(255, 255, 255, 0.605);
+
           span {
             color: rgb(87, 191, 223);
           }
@@ -129,12 +145,15 @@ const four_data = [
       }
     }
   }
+
   .activity {
     width: 100%;
+
     .title {
       font-size: 20px;
       font-weight: 600;
     }
+
     span {
       display: block;
       width: 100%;

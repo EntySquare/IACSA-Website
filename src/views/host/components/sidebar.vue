@@ -45,7 +45,7 @@ export default {
         <img
           src="https://img.clerk.com/eyJ0eXBlIjoiZGVmYXVsdCIsImlpZCI6Imluc18yUzBXV1ZUT21nNUlnTERoMXhIUURZaERvM0UiLCJyaWQiOiJ1c2VyXzJyRk9vSGtuZWdmdHJvODhZd2UySFRNR3VPSCJ9"
           alt="" srcset="" />
-        {{ 'CHN-XCZ' }}
+        {{ userInfo.user_name }}
         <el-icon v-if="!show">
           <ArrowUpBold />
         </el-icon>
